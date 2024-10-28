@@ -6,3 +6,29 @@
 - [ ] Navigate through lines (up, down, left, right)
 - [ ] Add error handling for invalid file paths
 - [ ] Clean up code and add comments
+
+
+Implement File Open Functionality:
+    Write a function to read a file and load its contents into a string or vector.
+    Handle errors if the file does not exist or cannot be opened.
+    Add basic unit tests to ensure files load correctly.
+
+Add Ability to Edit Lines of Text:
+    Create functions to add, modify, and delete lines in the text buffer.
+    Update the user interface to allow editing (for now, this can be simple command-line prompts).
+
+Save Changes to a File:
+    Write the text buffer back to the original file.
+    Add a confirmation prompt before saving.
+
+Navigate Through Lines (Up, Down, Left, Right):
+    Implement basic navigation, allowing the user to move around the text buffer.
+    Ensure navigation behaves correctly when at the start or end of lines.
+
+Add Error Handling for Invalid File Paths:
+    Make sure your program catches and displays errors if it can’t open or save a file.
+    Test with various file paths to ensure robustness.
+
+Clean Up Code and Add Comments:
+    Go through your code and add comments to explain tricky sections.
+    Organize functions and code into separate source and header files for clarity.
