@@ -1,6 +1,6 @@
 # TODO List for Simple Text Editor
 
-- [?] Implement file open functionality
+- [x] Implement file open functionality
 - [ ] Add ability to edit lines of text
 - [ ] Save changes to a file
 - [ ] Navigate through lines (up, down, left, right)
