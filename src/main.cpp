@@ -51,10 +51,12 @@ public:
         }
         openedFile.close(); // Close the file after reading
 
-        // Print the lines read from the file
-        for (size_t i = 0; i < lines.size(); i++)
+        /* Print the lines read from the file.
+        still not sure why size_t is better*/
+        for (size_t i=0; i < lines.size(); i++)
         {
-            std::cout << i << ". " << lines[i] << std::endl;
+            // i+1 cuz line 0 doesn't exist
+            std::cout << i+1 << ". " << lines[i] << std::endl;
         }
         std::cout << "File successfully closed" << std::endl;
     }
@@ -70,7 +72,7 @@ public:
         filepath = fileName;
 
         // Attempt to open the file
-        openedFile.open(filepath);
+        openedFile.open(fileName);
 
         std::ofstream file(filepath);
 
