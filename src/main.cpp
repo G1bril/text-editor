@@ -18,6 +18,8 @@ public:
     // Method to open the file
     void openFile(const std::string &fileName)
     {
+        // clear lines each openFile calls
+        lines.clear();
         /* Set the filepath member variable
         not a good way to do so */
         filepath = fileName;
@@ -33,61 +35,70 @@ public:
         }
 
         // Check file extension
-        if (!(filepath.extension() == ".txt" || filepath.extension() == ".md" ||
-              filepath.extension() == ".csv" || filepath.extension() == ".json" ||
-              filepath.extension() == ".xml" || filepath.extension() == ".html" ||
-              filepath.extension() == ".log"))
+        else if (!(filepath.extension() == ".txt" || filepath.extension() == ".md" ||
+                   filepath.extension() == ".csv" || filepath.extension() == ".json" ||
+                   filepath.extension() == ".xml" || filepath.extension() == ".html" ||
+                   filepath.extension() == ".log"))
         {
             std::cout << "Unsupported file extension" << std::endl;
             openedFile.close();
             return;
         }
-
-        // Read the file content into the vector
-        std::string buffer;
-        while (std::getline(openedFile, buffer))
+        else
         {
-            lines.push_back(buffer);
-        }
-        openedFile.close(); // Close the file after reading
+            // Read the file content into the vector
+            std::string buffer;
+            while (std::getline(openedFile, buffer))
+            {
+                lines.push_back(buffer);
+            }
+            openedFile.close(); // Close the file after reading
 
-        /* Print the lines read from the file.
-        still not sure why size_t is better*/
-        for (size_t i=0; i < lines.size(); i++)
-        {
-            // i+1 cuz line 0 doesn't exist
-            std::cout << i+1 << ". " << lines[i] << std::endl;
+            /* Print the lines read from the file.
+            still not sure why size_t is better*/
+            for (size_t i = 0; i < lines.size(); i++)
+            {
+                // i+1 cuz line 0 doesn't exist
+                std::cout << i + 1 << ". " << lines[i] << std::endl;
+            }
+            std::cout << "File successfully closed" << std::endl;
         }
-        std::cout << "File successfully closed" << std::endl;
     }
 
     void editFile(const std::string &fileName)
     {
-        std::string editBuffer = "";
-        // Placeholder for editing logic
-        std::cout << "Enter you modidifications" << std::endl;
-        std::cin >> editBuffer;
-        /* Set the filepath member variable
-        not a good way to do so */
-        filepath = fileName;
+        // Open the file and load its content into lines
+        openFile(fileName);
 
-        // Attempt to open the file
-        openedFile.open(fileName);
+        // Get line number to modify and new content from the user
+        int selectedLine;
+        std::string editBuffer;
 
-        std::ofstream file(filepath);
+        std::cout << "Choose a line to modify (1 - " << lines.size() << "): ";
+        std::cin >> selectedLine;
 
-        // Check if the file name is correct
-        if (!openedFile.is_open())
+        // Ensure line number is valid
+        // if (selectedLine < 1 || selectedLine > lines.size()) {
+        //    std::cerr << "Invalid line number." << std::endl;
+        //    return;
+        //}
+
+        std::cin.ignore(); // Clear newline from input buffer
+        std::cout << "Enter your modification: ";
+        std::getline(std::cin, editBuffer);
+
+        // Update the selected line
+        lines[selectedLine - 1] = editBuffer;
+
+        // Write modified content back to the file
+        std::ofstream file(fileName, std::ios::trunc); // Truncate file to replace content
+        for (const auto &line : lines)
         {
-            std::cerr << "File not found" << std::endl;
-            return;
+            file << line << std::endl;
         }
-        else
-        {
-            file << editBuffer;
-            file.close();
-            std::cout << "File created: " << filepath << std::endl;
-        }
+
+        file.close();
+        std::cout << "File successfully updated and saved." << std::endl;
     }
 
     void displayMenu()
