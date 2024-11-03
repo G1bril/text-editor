@@ -141,6 +141,8 @@ public:
                 std::cout << "See you later!" << std::endl;
                 break;
             default:
+            std::cin.clear();
+            std::cin.ignore();
                 std::cout << "Invalid option" << std::endl;
                 break;
             }
