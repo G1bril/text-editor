@@ -29,7 +29,7 @@ void TextEditor::openFile(const std::string &fileName)
                filepath.extension() == ".xml" || filepath.extension() == ".html" ||
                filepath.extension() == ".log"))
     {
-        std::cout << "Unsupported file extension" << std::endl;
+        std::cerr << "Unsupported file extension" << std::endl;
         openedFile.close();
         return;
     }
@@ -53,36 +53,58 @@ void TextEditor::openFile(const std::string &fileName)
     }
 }
 
-void TextEditor::editFile(const std::string &fileName)
-{
+void TextEditor::editFile(const std::string &fileName) {
     // Open the file and load its content into lines
     openFile(fileName);
 
     // Prompt for line number and new content
     int selectedLine;
     std::string editBuffer;
+    bool proceed = false;
 
-    std::cout << "Choose a line to modify (1 - " << lines.size() << "): ";
-    std::cin >> selectedLine;
+    do {
+        std::cout << "Choose a line to modify (1 - " << lines.size() << "): ";
+        std::cin >> selectedLine;
 
-    // Clear newline from the input buffer
-    std::cin.ignore();
-    std::cout << "Enter your modification: ";
-    std::getline(std::cin, editBuffer);
+        // Clear newline from the input buffer
+        std::cin.ignore();
+        
+        // Validate selected line number
+        if (selectedLine < 1 || selectedLine > lines.size()) {
+            std::cerr << "Invalid line number. Please try again." << std::endl;
+            continue; // Restart the loop
+        }
 
-    // Update the selected line
-    lines[selectedLine - 1] = editBuffer;
+        std::cout << "Enter your modification: ";
+        std::getline(std::cin, editBuffer);
 
-    // Write modified content back to the file
-    std::ofstream file(fileName, std::ios::trunc); // Truncate the file to replace content
-    for (const auto &line : lines)
-    {
-        file << line << std::endl;
-    }
+        // Update the selected line
+        lines[selectedLine - 1] = editBuffer;
 
-    file.close();
+        // Write modified content back to the file
+        std::ofstream file(fileName, std::ios::trunc); // Truncate the file to replace content
+        for (const auto &line : lines) {
+            file << line << std::endl;
+        }
+
+        std::cout << "Do you wish to modify another line? [Y/n]: ";
+        std::string input;
+        std::cin >> input;
+
+        if (input == "Y" || input == "y") {
+            proceed = true;  // Proceed
+        } else if (input == "N" || input == "n") {
+            proceed = false; // Do not proceed
+        } else {
+            std::cerr << "Invalid input. Please enter 'Y' or 'n'." << std::endl;
+            continue; // restarts loop
+        }
+
+    } while (proceed);
+
     std::cout << "File successfully updated and saved." << std::endl;
 }
+
 
 void TextEditor::displayMenu()
 {
@@ -94,7 +116,7 @@ void TextEditor::displayMenu()
         std::cout << "1. Read File" << std::endl;
         std::cout << "2. Edit File" << std::endl;
         std::cout << "3. Delete File" << std::endl;
-        std::cout << "4. Other" << std::endl;
+        std::cout << "4. Write file" << std::endl;
         std::cout << "5. Exit Program" << std::endl;
         std::cout << "Choose an option: ";
         std::cin >> choice;
@@ -126,7 +148,7 @@ void TextEditor::displayMenu()
         default:
             std::cin.clear();
             std::cin.ignore();
-            std::cout << "Invalid option" << std::endl;
+            std::cerr << "Invalid option" << std::endl;
             break;
         }
     } while (choice != 5);
