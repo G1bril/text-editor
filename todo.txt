@@ -10,7 +10,7 @@
 Things to do ATM:
 - Improve Editing function
 - Clean code a little bit
-
+  line editied by the program !
 Detailled todo list:
 
 Implement File Open Functionality:
