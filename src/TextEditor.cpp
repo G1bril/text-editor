@@ -87,22 +87,38 @@ void TextEditor::editFile(const std::string &fileName) {
             file << line << std::endl;
         }
 
-        std::cout << "Do you wish to modify another line? [Y/n]: ";
-        std::string input;
+        std::cout << "Do you wish to modify another line? [Y/n]: " << std::endl;
+        char input;
         std::cin >> input;
-
-        if (input == "Y" || input == "y") {
+        
+        if (input == 'Y' || input == 'y') {
             proceed = true;  // Proceed
-        } else if (input == "N" || input == "n") {
+        } else if (input == 'N' || input == 'n') {
             proceed = false; // Do not proceed
         } else {
+            proceed = true;
             std::cerr << "Invalid input. Please enter 'Y' or 'n'." << std::endl;
             continue; // restarts loop
         }
 
-    } while (proceed);
+    } while (proceed == true);
 
     std::cout << "File successfully updated and saved." << std::endl;
+}
+
+void TextEditor::deleteFile(const std::string &fileName) {
+    if (std::filesystem::remove(fileName)) {
+        std::cout << "File deleted successfully." << std::endl;
+    } else {
+        std::cerr << "File not found or could not be deleted." << std::endl;
+    }
+}
+
+void TextEditor::writeFile(){
+    std::string fileName;
+    std::cout << "Chose a file name" << std::endl;
+    std::cin >> fileName;
+    std::cout << fileName;
 }
 
 
@@ -121,7 +137,7 @@ void TextEditor::displayMenu()
         std::cout << "Choose an option: ";
         std::cin >> choice;
 
-        if (choice >= 1 && choice <= 4)
+        if (choice >= 1 && choice <= 3)
         {
             std::cout << "Please type file name: ";
             std::cin >> fileName;
@@ -137,10 +153,10 @@ void TextEditor::displayMenu()
             editFile(fileName);
             break;
         case 3:
-            std::cout << "This functionality is in development" << std::endl;
+            deleteFile(fileName);
             break;
         case 4:
-            std::cout << "This functionality is in development" << std::endl;
+            writeFile();
             break;
         case 5:
             std::cout << "See you later!" << std::endl;

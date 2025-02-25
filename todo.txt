@@ -2,15 +2,11 @@
 
 - [x] Implement file open functionality
 - [x] Add ability to edit lines of text
-- [ ] Save changes to a file
+- [ ] Make a text file
 - [ ] Navigate through lines (up, down, left, right)
 - [ ] Add error handling for invalid file paths
 - [ ] Clean up code and add comments
 
-Things to do ATM:
-- Improve Editing function
-- Clean code a little bit
-  line editied by the program !
 Detailled todo list:
 
 Implement File Open Functionality:

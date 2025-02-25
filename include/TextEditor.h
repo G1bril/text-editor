@@ -20,6 +20,8 @@ public:
     void openFile(const std::string &fileName); // Opens a file and reads content into `lines`
     void editFile(const std::string &fileName); // Allows modification of a specific line
     void displayMenu();              // Displays the main menu for user interaction
+    void deleteFile(const std::string &fileName);
+    void writeFile();
 };
 
 #endif // TEXTEDITOR_H
